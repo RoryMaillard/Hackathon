@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 print(os.getenv('API_KEY'))
-
 app = Flask(__name__)
 
 PORT = 3202
