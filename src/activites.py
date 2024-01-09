@@ -11,7 +11,7 @@ load_dotenv()
 app = Flask(__name__)
 
 PORT = 5000
-HOST = 'localhost'
+HOST = '0.0.0.0'
 
 
 @app.route("/activites", methods=['GET'])
