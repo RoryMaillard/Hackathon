@@ -1,1 +1,1 @@
-worker: docker run hackathon
+web: docker run hackathon
