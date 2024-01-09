@@ -23,14 +23,10 @@ def get_activites():
 
 @app.route("/activites/<activite>", methods=['GET'])
 def get_activites_filter(activite):
-    print(activite)
-    print(type(activite))
+
     encoded_activite = quote(activite)
-    print(encoded_activite)
-    URL = f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=44&where=nom%3D%20%22{encoded_activite}%22&apikey={os.getenv('API_KEY')}"
     activites = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=44&where=nom%3D%20%22{encoded_activite}%22&apikey={os.getenv('API_KEY')}")
     res = make_response(activites.json(), 200)
-    print(URL)
     return res
 
 if __name__ == "__main__":
