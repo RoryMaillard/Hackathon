@@ -1,18 +1,17 @@
-import json
 import os
-
 import flask
 import requests
-from flask import Flask, jsonify, make_response
 
+from flask import Flask, make_response
 from dotenv import load_dotenv
 
 load_dotenv()
 print(os.getenv('API_KEY'))
+
 app = Flask(__name__)
 
-PORT = 3202
-HOST = 'localhost'
+port = int(os.environ.get("PORT", 5000))
+HOST = '0.0.0.0'
 
 
 @app.route("/", methods=['GET'])
@@ -25,9 +24,6 @@ def get_parkings():
     res = make_response(parkings.json(), 200)
     return res
 
-
-
-
 if __name__ == "__main__":
-    print("Server running in port %s" % PORT)
-    app.run(host=HOST, port=PORT)
+    print("Server running in port %s" % port)
+    app.run(host=HOST, port=port)
