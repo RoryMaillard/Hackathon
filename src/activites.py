@@ -1,7 +1,7 @@
 import json
 import os
 import requests
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, render_template
 
 from urllib.parse import quote
 from dotenv import load_dotenv
@@ -16,7 +16,7 @@ HOST = '0.0.0.0'
 
 @app.route("/", methods=['GET'])
 def get_homepage():
-    return flask.render_template('index.html.jinja2')
+    return render_template('index.html.jinja2')
 
 @app.route("/activites", methods=['GET'])
 def get_activites():
