@@ -10,8 +10,8 @@ print(os.getenv('API_KEY'))
 
 app = Flask(__name__)
 
-PORT = 3202
-HOST = 'localhost'
+PORT = 5000
+HOST = '0.0.0.0'
 
 
 @app.route("/", methods=['GET'])
