@@ -1,1 +1,1 @@
-web: docker run hackathon
+web: python ./src/parkings.py
