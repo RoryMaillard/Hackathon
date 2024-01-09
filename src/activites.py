@@ -14,6 +14,10 @@ PORT = int(os.environ.get("PORT", 5000))
 HOST = '0.0.0.0'
 
 
+@app.route("/", methods=['GET'])
+def get_homepage():
+    return flask.render_template('index.html.jinja2')
+
 @app.route("/activites", methods=['GET'])
 def get_activites():
     activites = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=44&apikey={os.getenv('API_KEY')}")
