@@ -1,5 +1,7 @@
 import json
 import os
+
+import flask
 import requests
 from flask import Flask, jsonify, make_response
 
@@ -14,11 +16,17 @@ PORT = 3202
 HOST = 'localhost'
 
 
+@app.route("/", methods=['GET'])
+def get_homepage():
+    return flask.render_template('index.html.jinja2')
+
 @app.route("/parkings", methods=['GET'])
 def get_parkings():
     parkings = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_parkings-publics-nantes-disponibilites/records?apikey={os.getenv('API_KEY')}")
     res = make_response(parkings.json(), 200)
     return res
+
+
 
 
 if __name__ == "__main__":
