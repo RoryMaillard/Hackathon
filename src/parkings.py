@@ -10,7 +10,7 @@ print(os.getenv('API_KEY'))
 
 app = Flask(__name__)
 
-PORT = 5000
+port = int(os.environ.get("PORT", 5000))
 HOST = '0.0.0.0'
 
 
@@ -25,5 +25,5 @@ def get_parkings():
     return res
 
 if __name__ == "__main__":
-    print("Server running in port %s" % PORT)
-    app.run(host=HOST, port=PORT)
+    print("Server running in port %s" % port)
+    app.run(host=HOST, port=port)
