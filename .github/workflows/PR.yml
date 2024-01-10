@@ -7,4 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo 'Building'
+      - run: pip install -r "requirements.txt"
       - run: npm install && npm run build
