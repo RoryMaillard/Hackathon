@@ -1,20 +1,10 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
 import homepage from './vues/homepage.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <homepage/>
-    </div>
-  </header>
-
   <main>
-    <TheWelcome />
+    <homepage/>
   </main>
 </template>
 
