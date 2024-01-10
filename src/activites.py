@@ -10,7 +10,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-PORT = int(os.environ.get("PORT", 5000))
+PORT = int(os.environ.get("PORT", 5000)) +1
 HOST = '0.0.0.0'
 
 
