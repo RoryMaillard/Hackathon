@@ -1,2 +1,2 @@
 web: npm run serve
-web: python ./src/main.py
+worker: python ./src/main.py
