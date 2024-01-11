@@ -18,7 +18,6 @@ const selectedCategories = ref(props.selectedCategories);
 const toggleCategory = (categoryName) => {
   const index = selectedCategories.value.indexOf(categoryName);
   index==-1? selectedCategories.value.push(categoryName):selectedCategories.value.splice(index, 1);
-  emits("updateFilteredEvents", selectedCategories.value);
 };
 
 </script>
@@ -37,6 +36,12 @@ const toggleCategory = (categoryName) => {
           {{ category.name }}
         </button>
       </div>
+    <button
+        class="btn btn-success"
+        @click="$emit('updateFilteredEvents', selectedCategories)"
+    >
+      Rechercher
+    </button>
   </div>
 </template>
 

@@ -13,26 +13,41 @@ const categories = ref([
 ]);
 const selectedCategories = ref([]);
 
-const events = ref(await getFilteredEvents([]));
-
-const filteredEvents = ref(events.value.slice(0));
+const filteredEvents = ref(await getFilteredEvents([]));
 
 
 /**
  * Updates the filtered events thanks to the new list of selected categories
  * @param {Array} updatedSelectedCategories New list of selected categories
  */
-const updateFilteredEvents = (updatedSelectedCategories) => {
+const updateFilteredEvents = async (updatedSelectedCategories) => {
   selectedCategories.value = updatedSelectedCategories;
+  filteredEvents.value = await getFilteredEvents(updatedSelectedCategories);
   if (selectedCategories.value.length === 0) {
-    filteredEvents.value = events.value;
   } else {
-    filteredEvents.value = events.value.filter((event) =>{
+    filteredEvents.value = filteredEvents.value.filter((event) =>{
           return selectedCategories.value.every((category) => event.categories.includes(category))
         }
     );
   }
 };
+
+async function getCategories() {
+  const configHTTP = {
+    method: "GET",
+    url: "http://localhost:5001/categories",
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  try{
+    const categories = (await axios.request(configHTTP)).data.results.categories;
+    return categories;
+  }catch(error){
+    return [];
+    alert(error);
+  }
+}
 
 async function getFilteredEvents(categories){
   const configHTTP = {
