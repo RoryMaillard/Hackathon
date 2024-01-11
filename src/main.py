@@ -49,8 +49,6 @@ def get_activites_filter(activity):
 
 @app.route("/categories", methods=['POST'])
 def get_categories_filter():
-    global categories_list
-    # Si la requête est de type POST, mettre à jour la liste avec les données du frontend
     data = request.get_json()
     categories_list = data.get('categories_list', [])
 
@@ -67,60 +65,32 @@ def get_categories_filter():
 
 @app.route("/allcategories", methods=['GET'])
 def get_all_categories():
-    global categories_list
-    all_categories= {'results' : []}
-    add=True
+    all_categories = {'results': {'categories':[]}}
     categories_1=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_1&group_by=categorie_1&limit=100&apikey={os.getenv('API_KEY')}").json()
     categories_2=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_2&group_by=categorie_2&limit=100&apikey={os.getenv('API_KEY')}").json()
     categories_3=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_3&group_by=categorie_3&limit=100&apikey={os.getenv('API_KEY')}").json()
     categories_4=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_4&group_by=categorie_4&limit=100&apikey={os.getenv('API_KEY')}").json()
     categories_5=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_5&group_by=categorie_5&limit=100&apikey={os.getenv('API_KEY')}").json()
-    print(categories_1)
-    print(categories_2)
-    print(categories_3)
-    print(categories_4)
-    print(categories_5)
     for i in categories_1["results"]:
-        for j in all_categories["results"]:
-            if i["categorie_1"] == j["category"] or i["categorie_1"] == None:
-                add=False
-        if add == True:
-            all_categories["results"].append({'category' : i["categorie_1"]})
-        add=True
+        if not (i["categorie_1"] in all_categories["results"]["categories"] or i["categorie_1"] == None):
+            all_categories["results"]["categories"].append(i["categorie_1"])
 
     for i in categories_2["results"]:
-        for j in all_categories["results"]:
-            if i["categorie_2"] == j["category"] or i["categorie_2"] == None:
-                add=False
-        if add == True:
-            all_categories["results"].append({'category' : i["categorie_2"]})
-        add=True
+        if not (i["categorie_2"] in all_categories["results"]["categories"] or i["categorie_2"] == None):
+            all_categories["results"]["categories"].append(i["categorie_2"])
 
     for i in categories_3["results"]:
-        for j in all_categories["results"]:
-            if i["categorie_3"] == j["category"] or i["categorie_3"] == None:
-                add=False
-        if add == True:
-            all_categories["results"].append({'category' : i["categorie_3"]})
-        add=True
+        if not (i["categorie_3"] in all_categories["results"]["categories"] or i["categorie_3"] == None):
+            all_categories["results"]["categories"].append(i["categorie_3"])
 
     for i in categories_4["results"]:
-        for j in all_categories["results"]:
-            if i["categorie_4"] == j["category"] or i["categorie_4"] == None:
-                add=False
-        if add == True:
-            all_categories["results"].append({'category' : i["categorie_4"]})
-        add=True
+        if not (i["categorie_4"] in all_categories["results"]["categories"] or i["categorie_4"] == None):
+            all_categories["results"]["categories"].append(i["categorie_4"])
 
     for i in categories_5["results"]:
-        for j in all_categories["results"]:
-            if i["categorie_5"] == j["category"] or i["categorie_5"] == None:
-                add=False
-        if add == True:
-            all_categories["results"].append({'category' : i["categorie_5"]})
-        add=True
+        if not (i["categorie_5"] in all_categories["results"]["categories"] or i["categorie_5"] == None):
+            all_categories["results"]["categories"].append(i["categorie_5"])
 
-    print(all_categories)
     res = make_response(all_categories, 200)
     return res
 
