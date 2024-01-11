@@ -12,6 +12,7 @@ const categories = ref([
   { name: 'Lecture' },
 ]);
 const selectedCategories = ref([]);
+const port = process.env.PORT || 5001;
 
 const filteredEvents = ref(await getFilteredEvents([]));
 
@@ -35,7 +36,7 @@ const updateFilteredEvents = async (updatedSelectedCategories) => {
 async function getCategories() {
   const configHTTP = {
     method: "GET",
-    url: "http://localhost:5001/categories",
+    url: "http://localhost:${port}/categories",
     headers: {
       'Content-Type': 'application/json'
     }
@@ -52,7 +53,7 @@ async function getCategories() {
 async function getFilteredEvents(categories){
   const configHTTP = {
     method:"GET",
-    url:"http://localhost:5001/activites",
+    url:"http://localhost:${port}/activites",
     headers:{
       'Content-Type': 'application/json'
     }
