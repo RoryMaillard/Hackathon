@@ -3,6 +3,23 @@ on:
     types: [opened, edited]
 
 jobs:
+  flask-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt  # Adjust this command based on your project setup
+
+      - name: Run Flask tests
+        run: python -m unittest discover tests
   build:
     runs-on: ubuntu-latest
 
