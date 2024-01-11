@@ -2,42 +2,72 @@
 import { ref } from 'vue';
 import categorySelection from "../components/categorySelection.vue";
 import eventsDisplay from "../components/eventsDisplay.vue";
+import axios from "axios";
 const emits = defineEmits(["updateFilteredEvents"]);
+
 const categories = ref([
-  { name: 'Music' },
-  { name: 'Art' },
+  { name: 'Activité à partager' },
+  { name: 'Enfant' },
+  { name: 'Atelier' },
+  { name: 'Lecture' },
 ]);
-
 const selectedCategories = ref([]);
-const events = ref([
-  { name: 'Concert 1', categories: ['Music'] },
-  { name: 'Art Exhibition', categories: ['Art'] },
-]);
 
-const filteredEvents = ref(events.value.slice(0));
+const filteredEvents = ref(await getFilteredEvents([]));
+
 
 /**
  * Updates the filtered events thanks to the new list of selected categories
  * @param {Array} updatedSelectedCategories New list of selected categories
  */
-const updateFilteredEvents = (updatedSelectedCategories) => {
+const updateFilteredEvents = async (updatedSelectedCategories) => {
   selectedCategories.value = updatedSelectedCategories;
+  filteredEvents.value = await getFilteredEvents(updatedSelectedCategories);
   if (selectedCategories.value.length === 0) {
-    filteredEvents.value = events.value;
   } else {
-    filteredEvents.value = events.value.filter((event) =>{
+    filteredEvents.value = filteredEvents.value.filter((event) =>{
           return selectedCategories.value.every((category) => event.categories.includes(category))
         }
     );
   }
 };
 
-const exempleEvent = {categorie_1: "Activité à partager",
-  categorie_2: "musique",
-  categorie_3: "art",
-  categorie_4: "cinéma",
-  categorie_5: "bebe dringdring",
-  trucAuPif: "ouinouin"
+async function getCategories() {
+  const configHTTP = {
+    method: "GET",
+    url: "http://localhost:5001/categories",
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  try{
+    const categories = (await axios.request(configHTTP)).data.results.categories;
+    return categories;
+  }catch(error){
+    return [];
+    alert(error);
+  }
+}
+
+async function getFilteredEvents(categories){
+  const configHTTP = {
+    method:"GET",
+    url:"http://localhost:5001/activites",
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  }
+  try{
+    const events = (await axios.request(configHTTP)).data.results;
+    events.map((event)=> {
+      event.categories = getCategoriesListFromEvent(event)
+      return event});
+    return events;
+  }catch(error){
+    return [];
+    alert(error);
+  }
+
 }
 
 /**
@@ -47,11 +77,10 @@ const exempleEvent = {categorie_1: "Activité à partager",
  */
 function getCategoriesListFromEvent(event){
   return Object.keys(event).reduce((acc, key) =>{
-    key.startsWith("categorie_")? acc.push(event[key]):null;
+    (key.startsWith("categorie_") && event[key]!=null)? acc.push(event[key]):null;
     return acc;
   }, []);
 }
-console.log("Toutes les categories devraient être ajoutées à la liste: ", getCategoriesListFromEvent(exempleEvent));
 </script>
 
 
