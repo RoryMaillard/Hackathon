@@ -24,6 +24,20 @@ def get_all_activites():
     res = make_response(activites.json(), 200)
     return res
 
+@app.route("/activity/<id>/<date>", methods=['GET'])
+def get_activity_by_id_date(id, date):
+    date_obj = datetime.strptime(date, "%Y%m%d")
+    date_formatee = date_obj.strftime("%Y-%m-%d")
+    activity = requests.get(
+        f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=100&where=id_manif%3D%20%22{id}%22%20and%20date%3Ddate'{date_formatee}'&apikey={os.getenv('API_KEY')}")
+    res = make_response(activity.json(), 200)
+    return res
+
+@app.route("/activity/<id>", methods=['GET'])
+def get_activity_by_id(id):
+    activity = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=100&where=id_manif%3D%20%22{id}%22&apikey={os.getenv('API_KEY')}")
+    res = make_response(activity.json(), 200)
+    return res
 
 @app.route("/activities/<activity>", methods=['GET'])
 def get_activites_filter(activity):
