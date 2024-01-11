@@ -4,7 +4,12 @@ import homepage from './vues/homepage.vue'
 
 <template>
   <main>
-    <homepage/>
+    <Suspense>
+      <homepage/>
+      <template #fallback>
+        Loading...
+      </template>
+    </Suspense>
   </main>
 </template>
 
