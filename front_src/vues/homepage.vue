@@ -5,15 +5,18 @@ import eventsDisplay from "../components/eventsDisplay.vue";
 import axios from "axios";
 const emits = defineEmits(["updateFilteredEvents"]);
 
-
 const categories = ref([
-  { name: 'Music' },
-  { name: 'Art' },
+  { name: 'Activité à partager' },
+  { name: 'Enfant' },
+  { name: 'Atelier' },
+  { name: 'Lecture' },
 ]);
 const selectedCategories = ref([]);
-const events = ref(getFilteredEvents([]));
+
+const events = ref(await getFilteredEvents([]));
 
 const filteredEvents = ref(events.value.slice(0));
+
 
 /**
  * Updates the filtered events thanks to the new list of selected categories
@@ -37,12 +40,13 @@ async function getFilteredEvents(categories){
     url:"http://localhost:5001/activites",
     headers:{
       'Content-Type': 'application/json'
-    },
-    withCredentials:true,
+    }
   }
   try{
-    const events = (await axios.request(configHTTP)).data;
-    console.log("events", events)
+    const events = (await axios.request(configHTTP)).data.results;
+    events.map((event)=> {
+      event.categories = getCategoriesListFromEvent(event)
+      return event});
     return events;
   }catch(error){
     return [];
@@ -58,7 +62,7 @@ async function getFilteredEvents(categories){
  */
 function getCategoriesListFromEvent(event){
   return Object.keys(event).reduce((acc, key) =>{
-    key.startsWith("categorie_")? acc.push(event[key]):null;
+    (key.startsWith("categorie_") && event[key]!=null)? acc.push(event[key]):null;
     return acc;
   }, []);
 }
