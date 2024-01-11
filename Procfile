@@ -1,2 +1,2 @@
 web: npm run serve
-worker: python ./src/activites.py -b 0.0.0.0
+worker: python ./src/main.py -b 0.0.0.0
