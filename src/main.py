@@ -49,7 +49,6 @@ def get_activites_filter(activity):
 
 @app.route("/categories", methods=['POST'])
 def get_categories_filter():
-    # Si la requête est de type POST, mettre à jour la liste avec les données du frontend
     data = request.get_json()
     categories_list = data.get('categories_list', [])
 
