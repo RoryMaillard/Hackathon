@@ -6,16 +6,10 @@ from flask_cors import CORS
 from urllib.parse import quote
 from dotenv import load_dotenv
 
-load_dotenv()
-template_dir = os.path.abspath('./../dist')
-app = Flask(__name__,template_folder=template_dir)
+app = Flask(__name__)
 cors = CORS(app)
 PORT = 5001
 HOST = '0.0.0.0'
-
-@app.route("/",methods = ['GET'])
-def homne():
-    return render_template("index.html")
 
 @app.route("/listactivities", methods=['GET'])
 def get_all_activites():
