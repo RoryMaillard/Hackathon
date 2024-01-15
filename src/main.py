@@ -10,7 +10,7 @@ load_dotenv()
 
 app = Flask(__name__)
 cors = CORS(app)
-PORT = int(os.environ.get("PORT", 5000)) + 1
+PORT = 5001
 HOST = '0.0.0.0'
 
 
