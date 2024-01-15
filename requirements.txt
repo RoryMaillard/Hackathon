@@ -5,3 +5,4 @@ python-dotenv==0.20.0
 urllib3==1.26
 flask-cors==4.0.0
 unittest2==1.1.0
+gunicorn
