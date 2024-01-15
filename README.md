@@ -1,15 +1,26 @@
 # Hackathon
 
-## Installation du back
+## Backend
+### Installation
+```console
     pip install -r "requirements.txt"
+```
+### Lancement
+    Lancer le fichier main.py avec un interpreteur python
+    Il se lancera avec comme addresse ip localhost:5001
 
-## Installation du front
+## Front-end
+### Installation
+```console
     npm install
+```
 
-## Run le back
-    run le fichier *fichier d'application à fournir* avec un interpreteur python
-
-## Run le front
+### Run le front
+    en mode dev
+    ```console
     npm run dev
-
-
+    ```
+    en mode prod
+    ```console
+    npm run serve
+    ```
