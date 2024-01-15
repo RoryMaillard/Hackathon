@@ -16,14 +16,12 @@ HOST = '0.0.0.0'
 
 
 @app.route("/listactivities", methods=['GET'])
-@cross_origin()
 def get_all_activites():
     activites = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=44&apikey={os.getenv('API_KEY')}")
     res = make_response(activites.json(), 200)
     return res
 
 @app.route("/activity/<id>/<date>", methods=['GET'])
-@cross_origin()
 def get_activity_by_id_date(id, date):
     date_obj = datetime.strptime(date, "%Y%m%d")
     date_formatee = date_obj.strftime("%Y-%m-%d")
@@ -33,14 +31,12 @@ def get_activity_by_id_date(id, date):
     return res
 
 @app.route("/activity/<id>", methods=['GET'])
-@cross_origin()
 def get_activity_by_id(id):
     activity = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=100&where=id_manif%3D%20%22{id}%22&apikey={os.getenv('API_KEY')}")
     res = make_response(activity.json(), 200)
     return res
 
 @app.route("/activities/<activity>", methods=['GET'])
-@cross_origin()
 def get_activites_filter(activity):
     encoded_activity = quote(activity)
     activites = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=100&where=nom%3D%20%22{encoded_activity}%22&apikey={os.getenv('API_KEY')}")
@@ -49,7 +45,6 @@ def get_activites_filter(activity):
 
 
 @app.route("/categories", methods=['POST'])
-@cross_origin()
 def get_categories_filter():
     data = request.get_json()
     categories_list = data.get('categories_list', [])
@@ -66,7 +61,6 @@ def get_categories_filter():
 
 
 @app.route("/allcategories", methods=['GET'])
-@cross_origin()
 def get_all_categories():
     all_categories = {'results': {'categories':[]}}
     categories_1=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_1&group_by=categorie_1&limit=100&apikey={os.getenv('API_KEY')}").json()
@@ -96,7 +90,6 @@ def get_all_categories():
 
     res = make_response(all_categories, 200)
     return res
-
 
 if __name__ == "__main__":
     print("Server running in port %s" % PORT)

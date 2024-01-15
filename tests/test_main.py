@@ -32,7 +32,9 @@ class TestStringMethods(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         app.config['SERVER_NAME'] = 'localhost:5001'
+        app.config['CORS_ENABLED'] = 'False'
         cls.client = app.test_client()
+        
 
     def setUp(self):
         self.app_context = app.app_context()
