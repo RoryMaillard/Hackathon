@@ -10,7 +10,10 @@ app = Flask(__name__)
 cors = CORS(app)
 PORT = 5001
 HOST = '0.0.0.0'
-
+@app.route('/')
+def serve_static():
+    return send_from_directory('./../dist', 'index.html')
+    
 @app.route("/listactivities", methods=['GET'])
 def get_all_activites():
     activites = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=44&apikey={os.getenv('API_KEY')}")
