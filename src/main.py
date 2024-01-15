@@ -11,6 +11,10 @@ cors = CORS(app)
 PORT = 5001
 HOST = '0.0.0.0'
 
+@app.route('/')
+def get_home():
+    return redirect(url_for('serve_static')+"/index.html")
+
 @app.route('/<path:filename>')
 def serve_static(filename):
     return send_from_directory('./../dist', filename)
