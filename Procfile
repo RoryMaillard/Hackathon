@@ -1,2 +1,2 @@
 web: npm run serve
-web: python ./src/main.py
+web: gunicorn -b 0.0.0.0:5001 __name__:app
