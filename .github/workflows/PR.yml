@@ -20,6 +20,20 @@ jobs:
 
       - name: Run Flask tests
         run: python -m unittest discover tests
+  vue-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: '20.9.0'
+      - name: npm install, test:unit
+        run: |
+          npm install
+          npm run test:unit
   build:
     runs-on: ubuntu-latest
 
@@ -31,7 +45,7 @@ jobs:
       with:
         node-version: '20.9.0'
 
-    - name: npm install, build, and test
+    - name: npm install, build
       run: |
         npm install
         npm run build --if-present
