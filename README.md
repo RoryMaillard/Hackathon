@@ -1,4 +1,8 @@
 # Hackathon
+L'objectif de l'application est de fournir à l'utilisateur la liste des évènements culturels disponibles à Nantes en fonction de ses préférences.
+Une liste de catégories est fournie et permet de filtrer les évènements affichés. 
+
+La partie back est implémenté avec le module flask de python, et le front est implémenté avec node et VueJS. 
 
 ## Backend
 ### Installation
@@ -24,6 +28,8 @@ En mode prod :
 ```console
 npm run serve
 ```
+Pour que le front soit opérationnelle, le back doit être lancé au préalable.
+
 ## Déploiement
 
 Le déploiement se fait grâce à scalingo, Il se fait automatiquement après chaque push sur la branche main, une fois que tous les tests ont été effectués. La configuration du déploiement se fait dans le fichier PROCFILE ainsi que dans le fichier buildpacks.
