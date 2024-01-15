@@ -1,2 +1,3 @@
-web: npm run serve
-worker: python src/main.py
+web: pyhton src/main.py
+frontend: npm run serve
+
