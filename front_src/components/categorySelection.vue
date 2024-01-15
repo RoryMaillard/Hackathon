@@ -28,12 +28,12 @@ const toggleCategory = (categoryName) => {
       <div v-for="category in categories" :key="category">
         <button
             class="btn"
-            v-bind:class="{ 'btn-secondary': !selectedCategories.includes(category.name),
-                              'btn-primary': selectedCategories.includes(category.name)
+            v-bind:class="{ 'btn-secondary': !selectedCategories.includes(category),
+                              'btn-primary': selectedCategories.includes(category)
             }"
-            @click="toggleCategory(category.name)"
+            @click="toggleCategory(category)"
         >
-          {{ category.name }}
+          {{ category }}
         </button>
       </div>
     <button

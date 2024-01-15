@@ -1,22 +1,19 @@
+from audioop import cross
 import json
 import os
 import requests
 from flask import Flask, jsonify, make_response, render_template, request
-
+from flask_cors import CORS, cross_origin
 from urllib.parse import quote
 from dotenv import load_dotenv
 
 load_dotenv()
 
 app = Flask(__name__)
-
-PORT = int(os.environ.get("PORT", 5000)) + 1
+cors = CORS(app)
+PORT = 5001
 HOST = '0.0.0.0'
 
-
-@app.route("/", methods=['GET'])
-def get_homepage():
-    return render_template('index.html.jinja2')
 
 @app.route("/listactivities", methods=['GET'])
 def get_all_activites():
@@ -93,7 +90,6 @@ def get_all_categories():
 
     res = make_response(all_categories, 200)
     return res
-
 
 if __name__ == "__main__":
     print("Server running in port %s" % PORT)
