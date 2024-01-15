@@ -7,8 +7,8 @@ from urllib.parse import quote
 from dotenv import load_dotenv
 
 load_dotenv()
-
-app = Flask(__name__)
+template_dir = os.path.abspath('./../dist')
+app = Flask(__name__,template_folder=template_dir)
 cors = CORS(app)
 PORT = 5001
 HOST = '0.0.0.0'
