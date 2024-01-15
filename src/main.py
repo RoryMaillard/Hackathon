@@ -15,7 +15,7 @@ HOST = '0.0.0.0'
 
 @app.route("/",methods = ['GET'])
 def homne():
-    return render_template("dist/index.html")
+    return render_template("index.html")
 
 @app.route("/listactivities", methods=['GET'])
 def get_all_activites():
