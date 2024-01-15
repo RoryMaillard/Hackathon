@@ -2,25 +2,25 @@
 
 ## Backend
 ### Installation
-    ```console
+```console
     pip install -r "requirements.txt"
-    ```
+```
 ### Lancement
     Lancer le fichier main.py avec un interpreteur python
     Il se lancera avec comme addresse ip localhost:5001
 
 ## Front-end
 ### Installation
-    ```console
+```console
     npm install
-    ```
+```
 
 ### Run le front
     en mode dev
-    ```console
+```console
     npm run dev
-    ```
+```
     en mode prod
-    ```console
+```console
     npm run serve
-    ```
+```
