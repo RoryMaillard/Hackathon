@@ -5,14 +5,8 @@ import eventsDisplay from "../components/eventsDisplay.vue";
 import axios from "axios";
 const emits = defineEmits(["updateFilteredEvents"]);
 
-const categories = ref([
-  { name: 'Activité à partager' },
-  { name: 'Enfant' },
-  { name: 'Atelier' },
-  { name: 'Lecture' },
-]);
+const categories = ref(await getCategories());
 const selectedCategories = ref([]);
-const port = process.env.PORT || 5001;
 
 const filteredEvents = ref(await getFilteredEvents([]));
 
@@ -36,24 +30,26 @@ const updateFilteredEvents = async (updatedSelectedCategories) => {
 async function getCategories() {
   const configHTTP = {
     method: "GET",
-    url: "http://localhost:${port}/categories",
+    url: "http://localhost:5001/allcategories",
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     }
   }
   try{
     const categories = (await axios.request(configHTTP)).data.results.categories;
     return categories;
   }catch(error){
+    console.error(error);
     return [];
-    alert(error);
   }
 }
 
 async function getFilteredEvents(categories){
+  console.log(categories)
   const configHTTP = {
-    method:"GET",
-    url:"http://localhost:${port}/activites",
+    method:"POST",
+    url:"http://localhost:5001/categories",
+    data:{"categories_list" : categories },
     headers:{
       'Content-Type': 'application/json'
     }
@@ -65,8 +61,8 @@ async function getFilteredEvents(categories){
       return event});
     return events;
   }catch(error){
+    console.error(error);
     return [];
-    alert(error);
   }
 
 }
