@@ -49,7 +49,7 @@ et le backend flask s'occupe de faire le lien avec le front qui a été build
 
 
 ## Contribution
-Ce projet possède deux bran ches protégées, **main** et **develop**. Pour contribuer, il faut créer sa propre branche à partir de la branche **develop**. Lorsque le code sur la branche est terminé, il faut
+Ce projet possède deux branches protégées, **main** et **develop**. Pour contribuer, il faut créer sa propre branche à partir de la branche **develop**. Lorsque le code sur la branche est terminé, il faut
 créer une Pull Request pour merge son travail sur la branche **develop**.  
 Si tous les tests passent et que la pull request est validée par un autre membre de l'équipe, on peut la merge dans **develop**.  
 Une fois que tous les tests sont passés sur la branche **develop**, un membre de l'équipe peut décider de vouloir déployer en production le travail. Ainsi il pourra créer une Pull request de la branche **develop** vers la branche **main**.
