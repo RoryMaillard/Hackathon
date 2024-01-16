@@ -85,7 +85,7 @@ function getCategoriesListFromEvent(event){
   <div>
     <div class="container mt-5">
       <h1 class="mb-4">Cultural Events</h1>
-      <div class="mb-4">
+      <div class="mb-4 d-flex">
        <categorySelection
             :categories="categories"
             :selectedCategories="selectedCategories"
