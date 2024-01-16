@@ -23,11 +23,12 @@ const toggleCategory = (categoryName) => {
 </script>
 
 <template>
-  <div>
+  <div class="width-100">
     <h2>Choose Categories</h2>
+    <div class="d-flex wrapper justify-content-start">
       <div v-for="category in categories" :key="category">
         <button
-            class="btn"
+            class="btn mr-1 mb-1 inline-text"
             v-bind:class="{ 'btn-secondary': !selectedCategories.includes(category),
                               'btn-primary': selectedCategories.includes(category)
             }"
@@ -36,6 +37,7 @@ const toggleCategory = (categoryName) => {
           {{ category }}
         </button>
       </div>
+    </div>
     <button
         class="btn btn-success"
         @click="$emit('updateFilteredEvents', selectedCategories)"
@@ -46,5 +48,23 @@ const toggleCategory = (categoryName) => {
 </template>
 
 <style scoped>
-
+.mr-1{
+  margin-right: 1rem;
+}
+.mb-1{
+  margin-bottom: 1rem;
+}
+.inline-text{
+  white-space: nowrap;
+  text-align: center;
+}
+.wrapper{
+  flex-wrap: wrap;
+}
+.flex-start{
+  justify-content: flex-start;
+}
+.width-100{
+  width: 100%;
+}
 </style>
