@@ -1,7 +1,7 @@
 import json
 import os
 import requests
-from flask import Flask, jsonify, make_response, render_template, request, send_from_directory
+from flask import Flask, jsonify, make_response, render_template, request, send_from_directory, redirect
 from flask_cors import CORS
 from urllib.parse import quote
 from dotenv import load_dotenv
