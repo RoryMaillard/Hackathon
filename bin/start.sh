@@ -1,3 +1,4 @@
+sudo apt install node
 cd front
 npm install
 npm run build
