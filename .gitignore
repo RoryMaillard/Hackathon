@@ -3,7 +3,7 @@ venv/
 .venv/
 node_modules/
 *.env
-
+dist
 
 # Logs
 logs

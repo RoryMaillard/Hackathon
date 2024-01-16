@@ -5,7 +5,8 @@ Une liste de catégories est fournie et permet de filtrer les évènements affic
 La partie back est implémenté avec le module flask de python, et le front est implémenté avec node et VueJS.
 
 ## Structure du Projet :
-Le projet est divisé en 2 parties, le frontend dans le dossier *frontend* et le back dans le dossier backend.
+Le projet est divisé en 2 parties, le frontend dans le dossier front_src et le back dans le dossier back.
+Les deux sont un peu mélangés à cause de la manière dont Scalingo detecte les langages pour avoir un environnement correct 
 
 ## Backend
 
@@ -28,10 +29,8 @@ Il se lancera avec comme addresse ip localhost:5001
 ## Front-end
 
 ### Fonctionnement
-Le répertoire /front correspond aux fichiers du front-end.  
 L'application Vue possède pour le moment une seule vue qui correspond à la page d'accueil.  
 Cette page est constituée de deux composants: la sélection de catégories pour le filtrage des événements et l'affichage des événements filtrés.
-Toutes les commandes consoles de cette partie sont à lancer depuis le repertoire /front
 
 ### Installation
 ```console
