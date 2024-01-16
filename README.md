@@ -1,12 +1,15 @@
-# Hackathon
+# Hackathon : Événements culturels
+## Contexte
 L'objectif de l'application est de fournir à l'utilisateur la liste des évènements culturels disponibles à Nantes en fonction de ses préférences.
-Une liste de catégories est fournie et permet de filtrer les évènements affichés. 
+Une liste de catégories est fournie et permet de filtrer les événements affichés.
 
-La partie back est implémenté avec le module flask de python, et le front est implémenté avec node et VueJS.
+La partie back est implémentée avec le module flask de python, et le front avec node et VueJS.
+
+Lien du code source: https://github.com/RoryMaillard/Hackathon
 
 ## Structure du Projet :
 Le projet est divisé en 2 parties, le frontend dans le dossier front_src et le back dans le dossier back.
-Les deux sont un peu mélangés à cause de la manière dont Scalingo detecte les langages pour avoir un environnement correct 
+Les deux sont un peu mélangés à cause de la manière dont Scalingo detecte les langages pour avoir un environnement correct.
 
 ## Backend
 
@@ -46,25 +49,27 @@ et le backend flask s'occupe de faire le lien avec le front qui a été build
 
 
 ## Contribution
-Ce projet possède deux braches protégées, **main** et **develop**. Pour contribuer, il faut créer sa propre branche à partir de la branche **develop**. Puis lorsque le code est trerminé, créer une Pull Request pour merge son travail sur la branche **develop**
-Si tous les tests passent et que la pull request est validée par un autre membre de l'équipe, on peut la merge dans **develop**
-Une fois que tous les tests sont passés sur la branche **develop**, un membre de l'équipe peut décider de vouloir deplozer en production le travail. Ainsi il pourra creer une Pull request dee la branche **develop** vers la branche **main**.
-Si tous les tests passent et que la pull request est validée, on peut donc la merge dans le main. Les tests seront effectués sur la branche main et s'ils passent, l'application sera déployée sur Scalingo 
+Ce projet possède deux branches protégées, **main** et **develop**. Pour contribuer, il faut créer sa propre branche à partir de la branche **develop**. Lorsque le code sur la branche est terminé, il faut
+créer une Pull Request pour merge son travail sur la branche **develop**.  
+Si tous les tests passent et que la pull request est validée par un autre membre de l'équipe, on peut la merge dans **develop**.  
+Une fois que tous les tests sont passés sur la branche **develop**, un membre de l'équipe peut décider de vouloir déployer en production le travail. Ainsi il pourra créer une Pull request de la branche **develop** vers la branche **main**.
+Si tous les tests passent et que la pull request est validée, on peut donc la merge dans le main.  
+Les tests seront effectués sur la branche main et s'ils passent, l'application sera déployée sur Scalingo 
 
 
 
 
 ## Déploiement
 
-Le déploiement se fait grâce à scalingo, Il se fait automatiquement après chaque push sur la branche main, une fois que tous les tests ont été effectués. 
+Le déploiement se fait grâce à Scalingo. Il se fait automatiquement après chaque push sur la branche main, une fois que tous les tests ont été effectués. 
 La configuration du déploiement se fait dans le fichier PROCFILE, dans lequel il faut détailler les commandes pour lancer l'application web.
 Scalingo prend le projet et fait le déploiment de son coté, l'avancé du déploiement est visible ici **https://dashboard.scalingo.com/apps/osc-fr1/hackathonlogin2023/deploy/list**
 Une fois le site déployé, il est disponible sur ce lien :
 **https://hackathonlogin2023.osc-fr1.scalingo.io/**
 
 ## Tests
-Les tests sont fait grâce à Github Actions, la pipeline est écrite dans le ficher workflows/PR.yml, ils se lancent à chque pull request et à chaque push sur le main et la branch develop.
+Les tests sont faits grâce à Github Actions, la pipeline est écrite dans le fichier workflows/PR.yml, ils se lancent à chaque pull request et à chaque push sur le main et la branche develop.
 Il y a trois jobs qui sont lancés :
-- le premier teste le backend python
-- le deuxième teste de build le frontend
-- le troisième säoccupe des tests frontend
+- le premier teste le backend python (job flask-test)
+- le deuxième teste de build le frontend (job build)
+- le troisième s'occupe des tests frontend (job vue-test)
