@@ -16,6 +16,12 @@ pip install -r "requirements.txt"
 Lancer le fichier main.py avec un interpreteur python
 Il se lancera avec comme addresse ip localhost:5001
 
+### Fonctionnement
+Les répertoires /src et /tests correspondent aux fichiers du back-end.  
+L'application flask et ses endpoints sont définis dans le fichier src/main.py.  
+Cette application utilise l'API de Nantes Métropole pour récupérer ses données. Il faut fournir la clef API avec une variable d'environnement nommé API_KEY.  
+Lien de l'API de Nantes Métropole: https://data.nantesmetropole.fr/explore/dataset/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/api/
+
 ## Front-end
 ### Installation
 ```console
@@ -35,6 +41,12 @@ Ce projet possède deux braches protégées, **main** et **develop**. Pour contr
 Si tous les tests passent et que la pull request est validée par un autre membre de l'équipe, on peut la merge dans **develop**
 Une fois que tous les tests sont passés sur la branche **develop**, un membre de l'équipe peut décider de vouloir deplozer en production le travail. Ainsi il pourra creer une Pull request dee la branche **develop** vers la branche **main**.
 Si tous les tests passent et que la pull request est validée, on peut donc la merge dans le main. Les tests seront effectués sur la branche main et s'ils passent, l'application sera déployée sur Scalingo 
+
+### Fonctionnement
+Le répertoire /front_src correspond aux fichiers du front-end.  
+L'application Vue possède pour le moment une seule vue qui correspond à la page d'accueil.  
+Cette page est constituée de deux composants: la sélection de catégories pour le filtrage des événements et l'affichage des événements filtrés.
+
 
 ## Déploiement
 
