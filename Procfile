@@ -1,1 +1,1 @@
-web: gunicorn -b 0.0.0.0:$PORT back.src.main:app
+web: bash bin/start.sh
