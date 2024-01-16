@@ -24,8 +24,8 @@ jobs:
 
       - name: Run Flask tests
         run: |
-        cd back
-        python -m unittest discover tests
+          cd back
+          python -m unittest discover tests
   vue-test:
     runs-on: ubuntu-latest
 
@@ -38,7 +38,7 @@ jobs:
           node-version: '20.9.0'
       - name: npm install, test:unit
         run: |
-        cd front
+          cd front
           npm install
           npm run test:unit
   build:
@@ -54,6 +54,6 @@ jobs:
 
     - name: npm install, build
       run: |
-      cd front
+        cd front
         npm install
         npm run build --if-present
