@@ -72,6 +72,7 @@ def get_all_categories():
     categories_3=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_3&group_by=categorie_3&limit=100&apikey={os.getenv('API_KEY')}").json()
     categories_4=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_4&group_by=categorie_4&limit=100&apikey={os.getenv('API_KEY')}").json()
     categories_5=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_5&group_by=categorie_5&limit=100&apikey={os.getenv('API_KEY')}").json()
+    print("FNBHESGBFHEJDGBHFHESJFGHEJHS",categories_1)
     for i in categories_1["results"]:
         if not (i["categorie_1"] in all_categories["results"]["categories"] or i["categorie_1"] == None):
             all_categories["results"]["categories"].append(i["categorie_1"])
