@@ -1,2 +1,1 @@
-web: npm run serve
-worker: python ./src/main.py
+web: gunicorn -b 0.0.0.0:$PORT src.main:app

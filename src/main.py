@@ -1,20 +1,24 @@
-from audioop import cross
 import json
 import os
 import requests
-from flask import Flask, jsonify, make_response, render_template, request
-from flask_cors import CORS, cross_origin
+from flask import Flask, jsonify, make_response, render_template, request, send_from_directory, redirect, url_for
+from flask_cors import CORS
 from urllib.parse import quote
 from dotenv import load_dotenv
 
-load_dotenv()
-
 app = Flask(__name__)
 cors = CORS(app)
-PORT = 5001
+PORT = int(os.environ.get("PORT", 5000)) + 1
 HOST = '0.0.0.0'
 
+@app.route('/')
+def get_home():
+    return redirect(url_for('serve_static',filename = "index.html"))
 
+@app.route('/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('./../dist', filename)
+    
 @app.route("/listactivities", methods=['GET'])
 def get_all_activites():
     activites = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=44&apikey={os.getenv('API_KEY')}")
@@ -68,6 +72,7 @@ def get_all_categories():
     categories_3=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_3&group_by=categorie_3&limit=100&apikey={os.getenv('API_KEY')}").json()
     categories_4=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_4&group_by=categorie_4&limit=100&apikey={os.getenv('API_KEY')}").json()
     categories_5=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_5&group_by=categorie_5&limit=100&apikey={os.getenv('API_KEY')}").json()
+    print("FNBHESGBFHEJDGBHFHESJFGHEJHS",categories_1)
     for i in categories_1["results"]:
         if not (i["categorie_1"] in all_categories["results"]["categories"] or i["categorie_1"] == None):
             all_categories["results"]["categories"].append(i["categorie_1"])

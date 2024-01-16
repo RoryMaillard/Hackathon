@@ -30,7 +30,7 @@ const updateFilteredEvents = async (updatedSelectedCategories) => {
 async function getCategories() {
   const configHTTP = {
     method: "GET",
-    url: "http://localhost:5001/allcategories",
+    url: "https://hackathonlogin2023.osc-fr1.scalingo.io/allcategories",
     headers: {
       'Content-Type': 'application/json',
     }
@@ -48,7 +48,7 @@ async function getFilteredEvents(categories){
   console.log(categories)
   const configHTTP = {
     method:"POST",
-    url:"http://localhost:5001/categories",
+    url:"https://hackathonlogin2023.osc-fr1.scalingo.io/categories",
     data:{"categories_list" : categories },
     headers:{
       'Content-Type': 'application/json'
