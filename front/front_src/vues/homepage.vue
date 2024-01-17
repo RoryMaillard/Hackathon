@@ -7,7 +7,6 @@ const emits = defineEmits(["updateFilteredEvents"]);
 
 const categories = ref(await getCategories());
 const selectedCategories = ref([]);
-const api_url = 'http://localhost:8080/api/';
 
 const filteredEvents = ref(await getFilteredEvents([]));
 
@@ -19,19 +18,12 @@ const filteredEvents = ref(await getFilteredEvents([]));
 const updateFilteredEvents = async (updatedSelectedCategories) => {
   selectedCategories.value = updatedSelectedCategories;
   filteredEvents.value = await getFilteredEvents(updatedSelectedCategories);
-  if (selectedCategories.value.length === 0) {
-  } else {
-    filteredEvents.value = filteredEvents.value.filter((event) =>{
-          return selectedCategories.value.every((category) => event.categories.includes(category))
-        }
-    );
-  }
 };
 
 async function getCategories() {
   const configHTTP = {
     method: "GET",
-    url: `${api_url}allcategories`,
+    url: `/api/allcategories`,
     headers: {
       'Content-Type': 'application/json',
     }
@@ -49,7 +41,7 @@ async function getFilteredEvents(categories){
   console.log(categories)
   const configHTTP = {
     method:"POST",
-    url: `${api_url}categories`,
+    url: `/api/categories`,
     data:{"categories_list" : categories },
     headers:{
       'Content-Type': 'application/json'
