@@ -7,6 +7,7 @@ const emits = defineEmits(["updateFilteredEvents"]);
 
 const categories = ref(await getCategories());
 const selectedCategories = ref([]);
+const api_url = 'http://localhost:8080/api/';
 
 const filteredEvents = ref(await getFilteredEvents([]));
 
@@ -30,7 +31,7 @@ const updateFilteredEvents = async (updatedSelectedCategories) => {
 async function getCategories() {
   const configHTTP = {
     method: "GET",
-    url: "https://hackathonlogin2023.osc-fr1.scalingo.io/allcategories",
+    url: `${api_url}allcategories`,
     headers: {
       'Content-Type': 'application/json',
     }
@@ -48,7 +49,7 @@ async function getFilteredEvents(categories){
   console.log(categories)
   const configHTTP = {
     method:"POST",
-    url:"https://hackathonlogin2023.osc-fr1.scalingo.io/categories",
+    url: `${api_url}categories`,
     data:{"categories_list" : categories },
     headers:{
       'Content-Type': 'application/json'
