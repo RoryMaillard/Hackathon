@@ -1,11 +1,10 @@
 version: '3.8'
 services:
   frontend:
+    image: hackathonlogin2023.azurecr.io/frontend
     build:
       context: .
       dockerfile: front/Dockerfile
-    ports:
-      - "3000:3000"
     depends_on:
       - backend
     environment:
@@ -13,14 +12,14 @@ services:
 
     
   backend:
+    image: hackathonlogin2023.azurecr.io/backend
     build:
       context: .
       dockerfile: back/Dockerfile
-    ports:
-      - "5000:5000"
     environment:
       - API_KEY=${API_KEY}
   nginx:
+    image: hackathonlogin2023.azurecr.io/nginx
     build:
       context: .
       dockerfile: nginx/Dockerfile
