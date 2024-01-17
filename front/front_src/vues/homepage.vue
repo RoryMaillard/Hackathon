@@ -17,7 +17,9 @@ const filteredEvents = ref(await getFilteredEvents([]));
  */
 const updateFilteredEvents = async (updatedSelectedCategories) => {
   selectedCategories.value = updatedSelectedCategories;
+  console.log(selectedCategories.value);
   filteredEvents.value = await getFilteredEvents(updatedSelectedCategories);
+  console.log(filteredEvents.value)
 };
 
 async function getCategories() {

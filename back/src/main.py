@@ -42,16 +42,18 @@ def get_activites_filter(activity):
 
 @app.route("/api/categories", methods=['POST'])
 def get_categories_filter():
-    data = request.get_json()
+    data = request.json
     categories_list = data.get('categories_list', [])
 
     filter = ''
     for i in categories_list:
         encoded_category = quote(i)
-        filter + f"categorie_1%3D%20%22{encoded_category}%22%20or%20categorie_2%20%3D%20%22{encoded_category}%22%20or%20categorie_3%20%3D%20%22{encoded_category}%22%20or%20categorie_4%20%3D%20%22{encoded_category}%22%20or%20categorie_5%20%3D%20%22{encoded_category}%22"
-
+        if filter != '' :
+            filter += f"%20or%20"
+        filter += f"categorie_1%3D%20%22{encoded_category}%22%20or%20categorie_2%20%3D%20%22{encoded_category}%22%20or%20categorie_3%20%3D%20%22{encoded_category}%22%20or%20categorie_4%20%3D%20%22{encoded_category}%22%20or%20categorie_5%20%3D%20%22{encoded_category}%22"
+    
     categories = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=100&where={filter}&apikey={os.getenv('API_KEY')}")
-
+    
     res = make_response(categories.json(), 200)
     return res
 
