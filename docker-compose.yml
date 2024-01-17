@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: front/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - PORT=${PORT:-3000}
+
+    
+  backend:
+    build:
+      context: .
+      dockerfile: back/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - API_KEY=${API_KEY}
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - frontend
