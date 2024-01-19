@@ -1,7 +1,6 @@
 on:
   push:
     branches:
-      - 'main'
       - 'develop'
   pull_request:
     types: [opened, edited]
@@ -40,7 +39,7 @@ jobs:
         run: |
           npm install
           npm run test:unit
-  build:
+  build_test:
     runs-on: ubuntu-latest
 
     steps:
