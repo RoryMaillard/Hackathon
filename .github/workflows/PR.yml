@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - 'develop'
+      - 'scalingo-backup'
   pull_request:
     types: [opened, edited]
 
