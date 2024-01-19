@@ -6,10 +6,43 @@ name: Build and deploy container app to Azure Web App - hackathonlogin2023
 on:
   push:
     branches:
-      - Docker-test
+      - main
   workflow_dispatch:
 
 jobs:
+    flask-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt  # Adjust this command based on your project setup
+
+      - name: Run Flask tests
+        run: |
+          cd back
+          python -m unittest discover tests
+  vue-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: '20.9.0'
+      - name: npm install, test:unit
+        run: |
+          npm install
+          npm run test:unit
   build_and_push:
     runs-on: 'ubuntu-latest'
 
