@@ -46,3 +46,19 @@ jobs:
         push: true
         tags: hackathonlogin2023.azurecr.io/nginx:latest
         file: ./nginx/Dockerfile
+   
+   deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'hackathonlogin2023'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_e8a44b71b23b4ceeb89a764a17d61e60 }}
