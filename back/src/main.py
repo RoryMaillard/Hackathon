@@ -8,24 +8,16 @@ from dotenv import load_dotenv
 
 app = Flask(__name__)
 cors = CORS(app)
-PORT = int(os.environ.get("PORT", 5000)) + 1
+PORT = 5000
 HOST = '0.0.0.0'
-
-@app.route('/')
-def get_home():
-    return redirect(url_for('serve_static',filename = "index.html"))
-
-@app.route('/<path:filename>')
-def serve_static(filename):
-    return send_from_directory('./../../dist', filename)
     
-@app.route("/listactivities", methods=['GET'])
+@app.route("/api/listactivities", methods=['GET'])
 def get_all_activites():
     activites = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=44&apikey={os.getenv('API_KEY')}")
     res = make_response(activites.json(), 200)
     return res
 
-@app.route("/activity/<id>/<date>", methods=['GET'])
+@app.route("/api/activity/<id>/<date>", methods=['GET'])
 def get_activity_by_id_date(id, date):
     date_obj = datetime.strptime(date, "%Y%m%d")
     date_formatee = date_obj.strftime("%Y-%m-%d")
@@ -34,13 +26,13 @@ def get_activity_by_id_date(id, date):
     res = make_response(activity.json(), 200)
     return res
 
-@app.route("/activity/<id>", methods=['GET'])
+@app.route("/api/activity/<id>", methods=['GET'])
 def get_activity_by_id(id):
     activity = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=100&where=id_manif%3D%20%22{id}%22&apikey={os.getenv('API_KEY')}")
     res = make_response(activity.json(), 200)
     return res
 
-@app.route("/activities/<activity>", methods=['GET'])
+@app.route("/api/activities/<activity>", methods=['GET'])
 def get_activites_filter(activity):
     encoded_activity = quote(activity)
     activites = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=100&where=nom%3D%20%22{encoded_activity}%22&apikey={os.getenv('API_KEY')}")
@@ -48,23 +40,25 @@ def get_activites_filter(activity):
     return res
 
 
-@app.route("/categories", methods=['POST'])
+@app.route("/api/categories", methods=['POST'])
 def get_categories_filter():
-    data = request.get_json()
+    data = request.json
     categories_list = data.get('categories_list', [])
 
     filter = ''
     for i in categories_list:
         encoded_category = quote(i)
-        filter + f"categorie_1%3D%20%22{encoded_category}%22%20or%20categorie_2%20%3D%20%22{encoded_category}%22%20or%20categorie_3%20%3D%20%22{encoded_category}%22%20or%20categorie_4%20%3D%20%22{encoded_category}%22%20or%20categorie_5%20%3D%20%22{encoded_category}%22"
-
+        if filter != '' :
+            filter += f"%20or%20"
+        filter += f"categorie_1%3D%20%22{encoded_category}%22%20or%20categorie_2%20%3D%20%22{encoded_category}%22%20or%20categorie_3%20%3D%20%22{encoded_category}%22%20or%20categorie_4%20%3D%20%22{encoded_category}%22%20or%20categorie_5%20%3D%20%22{encoded_category}%22"
+    
     categories = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?limit=100&where={filter}&apikey={os.getenv('API_KEY')}")
-
+    
     res = make_response(categories.json(), 200)
     return res
 
 
-@app.route("/allcategories", methods=['GET'])
+@app.route("/api/allcategories", methods=['GET'])
 def get_all_categories():
     all_categories = {'results': {'categories':[]}}
     categories_1=requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_1&group_by=categorie_1&limit=100&apikey={os.getenv('API_KEY')}").json()

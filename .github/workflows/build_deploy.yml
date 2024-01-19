@@ -1,0 +1,82 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - hackathonlogin2023
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  flask-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          pip install -r back/requirements.txt  # Adjust this command based on your project setup
+
+      - name: Run Flask tests
+        run: |
+          cd back
+          python -m unittest discover tests
+  vue-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: '20.9.0'
+      - name: npm install, test:unit
+        run: |
+          cd front
+          npm install
+          npm run test:unit
+  build_and_push:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to registry
+      uses: docker/login-action@v2
+      with:
+        registry: https://hackathonlogin2023.azurecr.io/
+        username: ${{ secrets.AzureAppService_ContainerUsername_4d8f55a8737343caa7a967ec62fd0aef }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_1e68336540ea4af0b587758e9c76f13b }}
+
+    - name: Build and push frontend image to registry
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: hackathonlogin2023.azurecr.io/frontend:latest
+        file: ./front/Dockerfile
+        
+    - name: Build and push backend image to registry
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: hackathonlogin2023.azurecr.io/backend:latest
+        file: ./back/Dockerfile
+        
+    - name: Build and push nginx image to registry
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: hackathonlogin2023.azurecr.io/nginx:latest
+        file: ./nginx/Dockerfile
