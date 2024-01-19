@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-    flask-test:
+  flask-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt  # Adjust this command based on your project setup
+          pip install -r back/requirements.txt  # Adjust this command based on your project setup
 
       - name: Run Flask tests
         run: |
@@ -41,6 +41,7 @@ jobs:
           node-version: '20.9.0'
       - name: npm install, test:unit
         run: |
+          cd front
           npm install
           npm run test:unit
   build_and_push:
