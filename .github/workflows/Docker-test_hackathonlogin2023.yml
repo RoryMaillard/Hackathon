@@ -30,19 +30,19 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: hackathonlogin2023.azurecr.io/frontend:${{ github.sha }}
+        tags: hackathonlogin2023.azurecr.io/frontend:latest
         file: ./front/Dockerfile
         
     - name: Build and push backend image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: hackathonlogin2023.azurecr.io/backend:${{ github.sha }}
+        tags: hackathonlogin2023.azurecr.io/backend:latest
         file: ./back/Dockerfile
         
     - name: Build and push nginx image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: hackathonlogin2023.azurecr.io/nginx:${{ github.sha }}
+        tags: hackathonlogin2023.azurecr.io/nginx:latest
         file: ./nginx/Dockerfile
