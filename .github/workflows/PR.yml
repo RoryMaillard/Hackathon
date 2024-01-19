@@ -38,7 +38,7 @@ jobs:
           node-version: '20.9.0'
       - name: npm install, test:unit
         run: |
-	  cd front
+          cd front
           npm install
           npm run test:unit
   build_test:
@@ -54,6 +54,6 @@ jobs:
 
     - name: npm install, build
       run: |
-	cd front
-	npm install
-	npm run build --if-present
+        cd front
+        npm install
+        npm run build --if-present
