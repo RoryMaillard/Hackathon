@@ -23,6 +23,84 @@ paths:
                 items:
                   $ref: '#/components/schemas/Event'
 
+  /freeactivities:
+    get:
+      tags:
+        - Users
+      description: Retourne la liste des évènements culturels gratuits
+      operationId: get_free_activites
+      responses:
+        '200':
+          description: Tous les évènements gratuits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+
+  /todayactivities:
+    get:
+      tags:
+        - Users
+      description: Retourne la liste des évènements culturels du jour
+      operationId: get_today_activities
+      responses:
+        '200':
+          description: Tous les évènements du jour
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+
+  /activity/<id>:
+    get:
+      tags:
+        - Users
+      description: Retourne les évènements par id
+      operationId: get_activity_by_id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+
+      responses:
+        '200':
+          description: Evènements par id
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+
+  /activitiesbydate/<date>:
+    get:
+      tags:
+        - Users
+      description: Retourne les évènements par date
+      operationId: get_activity_by_date
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Evènements par date
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+
   /activity/<id>/<date>:
     get:
       tags:
@@ -50,29 +128,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Event'
-  /activity/<id>:
-    get:
-      tags:
-        - Users
-      description: Retourne les évènements par id
-      operationId: get_activity_by_id
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
 
-      responses:
-        '200':
-          description: Evènements par id
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Event'
   /categories:
     post:
       tags:
@@ -118,11 +174,17 @@ components:
     Event:
       type: object
       properties:
-        accueil_enfant:
+        id_manif:
           type: string
-        adresse:
+        nom:
           type: string
-        annule:
+        description:
+          type: string
+        libelle_festival:
+          type: string
+        emetteur:
+          type: string
+        rubrique:
           type: string
         categorie_1:
           type: string
@@ -134,35 +196,33 @@ components:
           type: string
         categorie_5:
           type: string
-        code_postal:
+        precisions_public:
           type: string
-        complet:
+        accueil_enfant:
           type: string
         date:
-          type: string
-        date_report:
-          type: string
-        description:
-          type: string
-        emetteur:
-          type: string
-        gratuit:
           type: string
         heure_debut:
           type: string
         heure_fin:
           type: string
-        id_manif:
+        complet:
           type: string
-        libelle_courriel:
+        annule:
           type: string
-        libelle_site:
+        reporte:
           type: string
-        libelle_telephone:
+        date_report:
           type: string
-        lien_agenda:
+        organisateurs:
           type: string
         lieu:
+          type: string
+        adresse:
+          type: string
+        ville:
+          type: string
+        code_postal:
           type: string
         lieu_quartier:
           type: string
@@ -170,22 +230,64 @@ components:
           type: string
         lieu_tel:
           type: string
+        lieu_email:
+          type: string
+        gratuit:
+          type: string
+        precisions_tarifs:
+          type: string
+        carte_blanche:
+          type: string
+        info_suppl:
+          type: string
+        h_auditif:
+          type: string
+        h_hyperacousie:
+          type: string
+        h_intellectuel:
+          type: string
+        h_lsf:
+          type: string
+        h_moteur:
+          type: string
+        h_psychique:
+          type: string
+        h_visuel:
+          type: string
+        lien_agenda:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        location:
+          type: string
+        type:
+          type: string
+        courriel:
+          type: string
+        libelle_courriel:
+          type: string
+        libelle_site:
+          type: string
+        libelle_telephone:
+          type: string
         media_url:
-          type: string
-        nom:
-          type: string
-        organisateurs:
-          type: string
-        precisions_public:
-          type: string
-        reporte:
-          type: string
-        rubrique:
           type: string
         telephone:
           type: string
         url_site:
           type: string
-        ville:
-          type: string
+        location_latlong:
+          properties:
+            lon:
+              type: number
+            lat:
+              type: number
+        location_lieu:
+          properties:
+            lon:
+              type: number
+            lat:
+              type: number
       description: Evènement culturel
