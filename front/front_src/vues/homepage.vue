@@ -1,87 +1,84 @@
-<script setup>
-import { ref } from 'vue';
-import categorySelection from "../components/categorySelection.vue";
-import eventsDisplay from "../components/eventsDisplay.vue";
+<script>
+import CategorySelection from "@/components/categorySelection.vue";
 import axios from "axios";
-const emits = defineEmits(["updateFilteredEvents"]);
-
-const categories = ref(await getCategories());
-const selectedCategories = ref([]);
-
-const filteredEvents = ref(await getFilteredEvents([]));
+import EventsDisplay from "@/components/eventsDisplay.vue";
 
 
-/**
- * Updates the filtered events thanks to the new list of selected categories
- * @param {Array} updatedSelectedCategories New list of selected categories
- */
-const updateFilteredEvents = async (updatedSelectedCategories) => {
-  selectedCategories.value = updatedSelectedCategories;
-  console.log(selectedCategories.value);
-  filteredEvents.value = await getFilteredEvents(updatedSelectedCategories);
-  console.log(filteredEvents.value)
-};
-
-async function getCategories() {
-  const configHTTP = {
-    method: "GET",
-    url: `/api/allcategories`,
-    headers: {
-      'Content-Type': 'application/json',
+export default {
+  name: "homepage2",
+  components: {EventsDisplay, CategorySelection},
+  data() {
+    return {
+      categories: [],
+      selectedCategories:[],
+      filteredEvents:[],
     }
-  }
-  try{
-    const categories = (await axios.request(configHTTP)).data.results.categories;
-    return categories;
-  }catch(error){
-    console.error(error);
-    return [];
-  }
-}
+  },
+  methods: {
+    async updateFilteredEvents(updatedSelectedCategories) {
+      this.selectedCategories = updatedSelectedCategories;
+      console.log(this.selectedCategories);
+      this.filteredEvents = await this.getFilteredEvents(updatedSelectedCategories);
+      console.log(this.filteredEvents)
+    },
 
-async function getFilteredEvents(categories){
-  console.log(categories)
-  const configHTTP = {
-    method:"POST",
-    url: `/api/categories`,
-    data:{"categories_list" : categories },
-    headers:{
-      'Content-Type': 'application/json'
+    async getFilteredEvents(categories){
+      console.log(categories)
+      const configHTTP = {
+        method:"POST",
+        url: `/api/categories`,
+        data:{"categories_list" : categories },
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      }
+      try{
+        const events = (await axios.request(configHTTP)).data.results;
+        events.map((event)=> {
+          event.categories = this.getCategoriesListFromEvent(event)
+          return event});
+        return events;
+      }catch(error){
+        console.error(error);
+        return [];
+      }
+    },
+    async getCategories(){
+      const configHTTP = {
+        method: "GET",
+        url: `/api/allcategories`,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+      try{
+        const categories = (await axios.request(configHTTP)).data.results.categories;
+        return categories;
+      }catch(error){
+        console.error(error);
+        return [];
+      }
+    },
+    getCategoriesListFromEvent(event){
+      return Object.keys(event).reduce((acc, key) =>{
+        (key.startsWith("categorie_") && event[key]!=null)? acc.push(event[key]):null;
+        return acc;
+      }, []);
     }
-  }
-  try{
-    const events = (await axios.request(configHTTP)).data.results;
-    events.map((event)=> {
-      event.categories = getCategoriesListFromEvent(event)
-      return event});
-    return events;
-  }catch(error){
-    console.error(error);
-    return [];
-  }
-
-}
-
-/**
- * Retrieve all the categories of an event and return them in a list
- * @param {Object} event
- * @returns {Array}
- */
-function getCategoriesListFromEvent(event){
-  return Object.keys(event).reduce((acc, key) =>{
-    (key.startsWith("categorie_") && event[key]!=null)? acc.push(event[key]):null;
-    return acc;
-  }, []);
+  },
+  async beforeMount() {
+    // methods can be called in lifecycle hooks, or other methods!
+    this.categories= await this.getCategories();
+    this.filteredEvents=await this.getFilteredEvents([]);
+  },
 }
 </script>
-
-
 <template>
   <div>
     <div class="container mt-5">
       <h1 class="mb-4">Cultural Events</h1>
       <div class="mb-4 d-flex">
-       <categorySelection
+        <categorySelection
             :categories="categories"
             :selectedCategories="selectedCategories"
             :key="categories"
@@ -90,7 +87,7 @@ function getCategoriesListFromEvent(event){
       </div>
       <div>
         <eventsDisplay :filteredEvents="filteredEvents"
-        :key="filteredEvents"/>
+                       :key="filteredEvents"/>
       </div>
     </div>
   </div>
