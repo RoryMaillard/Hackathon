@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from src.main import *
+from back.src.main import *
 
 
 def mocked_requests_get(*args, **kwargs):
@@ -13,15 +13,15 @@ def mocked_requests_get(*args, **kwargs):
         def json(self):
             return self.json_data
 
-    if args[0] == 'https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_1&group_by=categorie_1&limit=100&apikey=apikey':
+    if args[0] == 'https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-evenements-nantes-nantes-metropole/records?select=categorie_1&group_by=categorie_1&limit=100':
         return MockResponse({"results": [{"categorie_1":"categorie1"}]}, 200)
-    elif args[0] == 'https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_2&group_by=categorie_2&limit=100&apikey=apikey':
+    elif args[0] == 'https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-evenements-nantes-nantes-metropole/records?select=categorie_2&group_by=categorie_2&limit=100':
         return MockResponse({"results": [{"categorie_2":"categorie2"}]}, 200)
-    elif args[0] == 'https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_3&group_by=categorie_3&limit=100&apikey=apikey':
+    elif args[0] == 'https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-evenements-nantes-nantes-metropole/records?select=categorie_3&group_by=categorie_3&limit=100':
         return MockResponse({"results": [{"categorie_3":"categorie3"}]}, 200)
-    elif args[0] == 'https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_4&group_by=categorie_4&limit=100&apikey=apikey':
+    elif args[0] == 'https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-evenements-nantes-nantes-metropole/records?select=categorie_4&group_by=categorie_4&limit=100':
         return MockResponse({"results": [{"categorie_4":"categorie4"}]}, 200)
-    elif args[0] == 'https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-animations-culturelles-bibliotheque-municipale-nantes/records?select=categorie_5&group_by=categorie_5&limit=100&apikey=apikey':
+    elif args[0] == 'https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-evenements-nantes-nantes-metropole/records?select=categorie_5&group_by=categorie_5&limit=100':
         return MockResponse({"results": [{"categorie_5":"categorie5"}]}, 200)
     return MockResponse(None, 404)
 
