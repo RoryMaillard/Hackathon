@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from back.src.main import *
+from src.main import *
 
 
 def mocked_requests_get(*args, **kwargs):
