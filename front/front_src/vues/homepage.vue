@@ -5,7 +5,7 @@ import EventsDisplay from "@/components/eventsDisplay.vue";
 
 
 export default {
-  name: "homepage2",
+  name: "homepage",
   components: {EventsDisplay, CategorySelection},
   data() {
     return {
@@ -17,13 +17,10 @@ export default {
   methods: {
     async updateFilteredEvents(updatedSelectedCategories) {
       this.selectedCategories = updatedSelectedCategories;
-      console.log(this.selectedCategories);
       this.filteredEvents = await this.getFilteredEvents(updatedSelectedCategories);
-      console.log(this.filteredEvents)
     },
 
     async getFilteredEvents(categories){
-      console.log(categories)
       const configHTTP = {
         method:"POST",
         url: `/api/categories`,
