@@ -1,102 +1,101 @@
-<script setup>
-import { ref } from 'vue';
-import categorySelection from "../components/categorySelection.vue";
-import eventsDisplay from "../components/eventsDisplay.vue";
+<!-- src/vues/homepage.vue -->
+<script>
+import CategorySelection from "@/components/categorySelection.vue";
 import axios from "axios";
-const emits = defineEmits(["updateFilteredEvents"]);
+import EventsDisplay from "@/components/eventsDisplay.vue";
 
-const categories = ref(await getCategories());
-const selectedCategories = ref([]);
+export default {
+  name: "homepage",
+  components: { EventsDisplay, CategorySelection },
+  data() {
+    return {
+      categories: [],
+      selectedCategories: [],
+      filteredEvents: [],
+    };
+  },
+  methods: {
+    async updateFilteredEvents(updatedSelectedCategories) {
+      this.selectedCategories = updatedSelectedCategories;
+      this.filteredEvents = await this.getFilteredEvents(updatedSelectedCategories);
+    },
 
-const filteredEvents = ref(await getFilteredEvents([]));
-
-
-/**
- * Updates the filtered events thanks to the new list of selected categories
- * @param {Array} updatedSelectedCategories New list of selected categories
- */
-const updateFilteredEvents = async (updatedSelectedCategories) => {
-  selectedCategories.value = updatedSelectedCategories;
-  console.log(selectedCategories.value);
-  filteredEvents.value = await getFilteredEvents(updatedSelectedCategories);
-  console.log(filteredEvents.value)
-};
-
-async function getCategories() {
-  const configHTTP = {
-    method: "GET",
-    url: `/api/allcategories`,
-    headers: {
-      'Content-Type': 'application/json',
+    async getFilteredEvents(categories) {
+      const configHTTP = {
+        method: "POST",
+        url: `/api/categories`,
+        data: { categories_list: categories },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      try {
+        const events = (await axios.request(configHTTP)).data.results;
+        events.map((event) => {
+          event.categories = this.getCategoriesListFromEvent(event);
+          return event;
+        });
+        return events;
+      } catch (error) {
+        console.error(error);
+        return [];
+      }
+    },
+    async getCategories() {
+      const configHTTP = {
+        method: "GET",
+        url: `/api/allcategories`,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      };
+      try {
+        const categories = (await axios.request(configHTTP)).data.results.categories;
+        return categories;
+      } catch (error) {
+        console.error(error);
+        return [];
+      }
+    },
+    getCategoriesListFromEvent(event) {
+      return Object.keys(event).reduce((acc, key) => {
+        (key.startsWith("categorie_") && event[key] != null) ? acc.push(event[key]) : null;
+        return acc;
+      }, []);
     }
-  }
-  try{
-    const categories = (await axios.request(configHTTP)).data.results.categories;
-    return categories;
-  }catch(error){
-    console.error(error);
-    return [];
-  }
-}
-
-async function getFilteredEvents(categories){
-  console.log(categories)
-  const configHTTP = {
-    method:"POST",
-    url: `/api/categories`,
-    data:{"categories_list" : categories },
-    headers:{
-      'Content-Type': 'application/json'
-    }
-  }
-  try{
-    const events = (await axios.request(configHTTP)).data.results;
-    events.map((event)=> {
-      event.categories = getCategoriesListFromEvent(event)
-      return event});
-    return events;
-  }catch(error){
-    console.error(error);
-    return [];
-  }
-
-}
-
-/**
- * Retrieve all the categories of an event and return them in a list
- * @param {Object} event
- * @returns {Array}
- */
-function getCategoriesListFromEvent(event){
-  return Object.keys(event).reduce((acc, key) =>{
-    (key.startsWith("categorie_") && event[key]!=null)? acc.push(event[key]):null;
-    return acc;
-  }, []);
+  },
+  async beforeMount() {
+    this.categories = await this.getCategories();
+    this.filteredEvents = await this.getFilteredEvents([]);
+  },
 }
 </script>
 
-
 <template>
-  <div>
-    <div class="container mt-5">
-      <h1 class="mb-4">Cultural Events</h1>
-      <div class="mb-4 d-flex">
-       <categorySelection
+
+  <div class="container mt-5 homepage-container" :style="{ backgroundImage: `url('https://images.unsplash.com/photo-1630348637723-25d84aac0dd9?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')` }">
+    <h1 class="mb-4 homepage-title">Cultural Events</h1>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <categorySelection
             :categories="categories"
             :selectedCategories="selectedCategories"
             :key="categories"
             @updateFilteredEvents="updateFilteredEvents"
         />
       </div>
-      <div>
-        <eventsDisplay :filteredEvents="filteredEvents"
-        :key="filteredEvents"/>
+      <div class="col-md-8">
+        <eventsDisplay :filteredEvents="filteredEvents" :key="filteredEvents" />
       </div>
     </div>
   </div>
 </template>
 
-
 <style scoped>
-
+/* Add your styles if needed */
+.homepage-title {
+  color: #b30000; /* Darker red color */
+  font-size: 2.5rem; /* Set the title font size */
+  font-weight: bold; /* Set the title font weight to bold */
+}
 </style>
