@@ -1,70 +1,73 @@
+<!-- src/components/categorySelection.vue -->
 <script setup>
 import { ref } from 'vue';
 const emits = defineEmits(["updateFilteredEvents"]);
 const props = defineProps({
-    categories: Array,
-    selectedCategories:Array
-  })
+  categories: Array,
+  selectedCategories: Array
+});
 
 const categories = ref(props.categories);
 const selectedCategories = ref(props.selectedCategories);
 
 /**
- * Add or delete the category from the selected categories depending on the previous state
- * If it was not selected,add the category to selected categories
- * otherwise delete it from selected categories
+ * Toggle the selection of a category without removing previously selected ones
  * @param {String} categoryName Name of the category
  */
 const toggleCategory = (categoryName) => {
   const index = selectedCategories.value.indexOf(categoryName);
-  index==-1? selectedCategories.value.push(categoryName):selectedCategories.value.splice(index, 1);
+  if (index === -1) {
+    // If not selected, add the category to selected categories
+    selectedCategories.value.push(categoryName);
+  } else {
+    // If selected, remove the category from selected categories
+    selectedCategories.value.splice(index, 1);
+  }
 };
-
 </script>
 
 <template>
   <div class="width-100">
-    <h2>Choose Categories</h2>
-    <div class="d-flex wrapper justify-content-start">
-      <div v-for="category in categories" :key="category">
-        <button
-            class="btn mr-1 mb-1 inline-text"
-            v-bind:class="{ 'btn-secondary': !selectedCategories.includes(category),
-                              'btn-primary': selectedCategories.includes(category)
-            }"
-            @click="toggleCategory(category)"
-        >
-          {{ category }}
-        </button>
-      </div>
+    <h2 class="mb-3 category-title">Choose Categories</h2>
+    <div class="d-flex flex-wrap">
+      <button
+          v-for="category in categories"
+          :key="category"
+          class="btn category-button"
+          :class="{ 'selected': selectedCategories.includes(category) }"
+          @click="toggleCategory(category)"
+      >
+        {{ category }}
+      </button>
     </div>
     <button
-        class="btn btn-success"
+        class="btn btn-success mt-3"
         @click="$emit('updateFilteredEvents', selectedCategories)"
     >
-      Rechercher
+      Search Events
     </button>
   </div>
 </template>
 
 <style scoped>
-.mr-1{
-  margin-right: 1rem;
+/* Add your styles if needed */
+
+/* Customized button styles */
+.category-button {
+  background-color: #fff; /* Set the background color to white */
+  color: #007bff; /* Set the text color to blue */
+  border: 1px solid #007bff; /* Set the border color to blue */
+  margin: 0.5rem; /* Add margin for spacing */
 }
-.mb-1{
-  margin-bottom: 1rem;
+
+.category-button.selected {
+  background-color: #007bff; /* Set the background color to blue for selected buttons */
+  color: #fff; /* Set the text color to white for selected buttons */
 }
-.inline-text{
-  white-space: nowrap;
-  text-align: center;
-}
-.wrapper{
-  flex-wrap: wrap;
-}
-.flex-start{
-  justify-content: flex-start;
-}
-.width-100{
-  width: 100%;
+
+.category-title {
+  color: #b30000; /* Darker red color */
+  font-size: 1.5rem; /* Set the title font size */
+  font-weight: bold; /* Set the title font weight to bold */
 }
 </style>

@@ -1,15 +1,17 @@
 <script setup>
-import homepage from './vues/homepage.vue'
+import homepage from './vues/homepage.vue';
+import EventDetails from "@/vues/EventDetails.vue";
 </script>
 
 <template>
   <main>
-    <Suspense>
-      <homepage/>
-      <template #fallback>
-        Loading...
-      </template>
-    </Suspense>
+      <Suspense>
+        <router-view></router-view>
+        <template #fallback>
+          Loading...
+        </template>
+      </Suspense>
+
   </main>
 </template>
 
