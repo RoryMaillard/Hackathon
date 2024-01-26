@@ -2,7 +2,7 @@
 <template>
   <div>
     <div class="container mt-5">
-      <h1 class="mb-4">Cultural Events</h1>
+      <h1 class="mb-4">Événements culturels</h1>
       <categorySelection
           :categories="categories"
           :selectedCategories="selectedCategories"

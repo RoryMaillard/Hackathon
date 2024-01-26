@@ -1,7 +1,6 @@
 <!-- src/vues/EventDetails.vue -->
 <template>
   <div class="container mt-4">
-    <!-- Louis Vuitton-inspired Event Card -->
     <div class="card mb-4" style="background-color: #e3c080; border: 2px solid #592f14;">
       <img :src="event.media_url" alt="Event Image" class="card-img-top">
       <div class="card-body" style="color: #592f14;">
@@ -9,7 +8,7 @@
 
         <!-- Available Dates Dropdown -->
         <div class="mb-3">
-          <label for="dateSelector" class="form-label"><strong>Available Dates:</strong></label>
+          <label for="dateSelector" class="form-label"><strong>Dates disponibles:</strong></label>
           <select v-model="selectedDate" @change="updateSchedules" class="form-select" id="dateSelector" style="background-color: #e3c080;">
             <option v-for="date in allDates" :key="date" :value="date">{{ date }}</option>
           </select>
@@ -17,31 +16,31 @@
 
         <!-- Schedules Section -->
         <div class="mb-3">
-          <strong>Schedules available on {{ selectedDate }}:</strong>
+          <strong>Horaires disponibles le {{ selectedDate }}:</strong>
           <p v-if="filteredSchedules.length">{{ filteredSchedules.join(', ') }}</p>
-          <p v-else>No schedules available for the selected date.</p>
+          <p v-else>Aucun horaire disponible pour cette date.</p>
         </div>
 
         <!-- Event Details -->
         <div class="mb-3">
-          <strong>Location:</strong> {{ event.lieu }}, {{ event.lieu_quartier }}, {{ event.ville }}
+          <strong>Lieu:</strong> {{ event.lieu }}, {{ event.lieu_quartier }}, {{ event.ville }}
         </div>
         <div class="mb-3">
           <strong>Description:</strong> {{ event.description }}
         </div>
         <div class="mb-3">
-          <strong>Price:</strong> {{ event.precisions_tarifs }}
+          <strong>Prix:</strong> {{ event.precisions_tarifs }}
         </div>
         <div class="mb-3">
-          <strong>Organizers:</strong> {{ event.organisateurs }}
+          <strong>Organisateurs:</strong> {{ event.organisateurs }}
         </div>
         <div class="mb-3">
-          <strong>Website:</strong> <a :href="event.url_site" target="_blank">{{ event.url_site }}</a>
+          <strong>Site web:</strong> <a :href="event.url_site" target="_blank">{{ event.url_site }}</a>
         </div>
 
         <!-- Back to Homepage Button -->
         <div class="text-center">
-          <button @click="goToHomepage" class="btn btn-dark" style="background-color: #592f14;">Back to Homepage</button>
+          <button @click="goToHomepage" class="btn btn-dark" style="background-color: #592f14;">Retour à l'accueil</button>
         </div>
       </div>
     </div>

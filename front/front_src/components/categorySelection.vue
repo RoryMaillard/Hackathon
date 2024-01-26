@@ -1,7 +1,7 @@
 <!-- src/components/categorySelection.vue -->
 <template>
   <div class="width-100">
-    <h2>Choose Categories</h2>
+    <h2>Catégories</h2>
     <button
         v-for="category in categories"
         :key="category"
@@ -11,13 +11,14 @@
     >
       {{ category }}
     </button>
-    <button class="btn btn-success" @click="updateFilteredEvents">Rechercher</button>
+    <button class="btn btn-success" @click="$emit('updateFilteredEvents', selectedCategories)">Rechercher</button>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 
+const emits = defineEmits(['updateFilteredEvents'])
 const props = defineProps({
   categories: Array,
   selectedCategories: Array,
@@ -30,9 +31,6 @@ const toggleCategory = (categoryName) => {
   index === -1 ? selectedCategories.value.push(categoryName) : selectedCategories.value.splice(index, 1);
 };
 
-const updateFilteredEvents = () => {
-  $emit('updateFilteredEvents', selectedCategories.value);
-};
 </script>
 
 <style scoped>
@@ -46,12 +44,6 @@ const updateFilteredEvents = () => {
   white-space: nowrap;
   text-align: center;
 }
-.wrapper {
-  flex-wrap: wrap;
-}
-.flex-start {
-  justify-content: flex-start;
-}
 .width-100 {
   width: 100%;
 }
@@ -62,6 +54,6 @@ const updateFilteredEvents = () => {
 }
 .btn-primary {
   background-color: #007bff; /* Change this to your preferred color */
-  color: #000000; /* Change this to your preferred text color */
+  color: #ffffff; /* Change this to your preferred text color */
 }
 </style>
