@@ -1,6 +1,6 @@
 <template>
   <div class="width-100">
-    <h2>Choose Categories</h2>
+    <h2>Catégories</h2>
     <div>
       <button
         v-for="category in categories"
