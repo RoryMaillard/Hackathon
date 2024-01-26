@@ -58,15 +58,45 @@ def get_categories_filter():
     data = request.json
     categories_list = data.get('categories_list', [])
 
+    gratuit_in_categories = False
+    h_auditif_in_categories = False
+    h_intellectuel_in_categories = False
+    h_visuel_in_categories = False
+    if 'Gratuit' in categories_list:
+        categories_list.remove('Gratuit')
+        gratuit_in_categories = True
+
+    if 'h_auditif' in categories_list:
+        categories_list.remove('h_auditif')
+        h_auditif_in_categories = True
+
+    if 'h_intellectuel' in categories_list:
+        categories_list.remove('h_intellectuel')
+        h_intellectuel_in_categories = True
+
+    if 'h_visuel' in categories_list:
+        categories_list.remove('h_visuel')
+        h_visuel_in_categories = True
+
     filter = ''
     for i in categories_list:
         encoded_category = quote(i)
-        if filter != '' :
+        if filter != '':
             filter += f"%20or%20"
         filter += f"categorie_1%3D%20%22{encoded_category}%22%20or%20categorie_2%20%3D%20%22{encoded_category}%22%20or%20categorie_3%20%3D%20%22{encoded_category}%22%20or%20categorie_4%20%3D%20%22{encoded_category}%22%20or%20categorie_5%20%3D%20%22{encoded_category}%22"
-    
-    categories = requests.get(f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-evenements-nantes-nantes-metropole/records?limit=100&where={filter}")
-    
+
+    url = f"https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_agenda-evenements-nantes-nantes-metropole/records?limit=100&where={filter}"
+
+    if gratuit_in_categories:
+        url += "&where=gratuit%3D%20%22oui%22"
+    if h_auditif_in_categories:
+        url += "&where=h_auditif%3D%20%22oui%22"
+    if h_intellectuel_in_categories:
+        url += "&where=h_intellectuel%3D%20%22oui%22"
+    if h_visuel_in_categories:
+        url += "&where=h_visuel%3D%20%22oui%22"
+
+    categories = requests.get(url)
     res = make_response(categories.json(), 200)
     return res
 
